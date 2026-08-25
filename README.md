@@ -22,7 +22,8 @@ The page is a flat list of paragraphs: a `YYYY/M/D` date heading, then lines lik
 
 - **Frontier** = running max `to` per SKU. Order numbers are one global sequence swept per-SKU, so frontier movement is the throughput — never sum range widths across SKUs.
 - **Rates** = frontier gain per day, both overall and "active" (excluding whole-line gaps > 4 days — AYN paused entirely 2026-07-18 → 2026-08-06).
-- **ETA** = remaining blocks / rate, shown as an optimistic→conservative window.
+- **ETA** = remaining blocks / rate, shown as an optimistic→conservative window with a relative phrasing ("about 6 weeks away").
+- **Sweep pace** (the "latest drops" panel) = frontier movement per day summed across SKUs, trailing ~14 active days vs lifetime. Frontier gain, not slice widths — AYN republishes overlapping slices, which would double-count. Context only; ETAs use the viewer's own SKU rate.
 
 ## Development
 

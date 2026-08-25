@@ -65,6 +65,70 @@ export function computeEta(drops, sku, block, now = Date.now()) {
   return { kind: 'eta', frontier, remaining, packMax, rActive, rOverall, opt, cons, mid };
 }
 
+// ---------- human framing ----------
+
+// Rough relative durations for people, not machines: "today", "9 days",
+// "about 3 weeks", "about 2 months". Callers append "away"/"ago".
+export function humanizeDays(days) {
+  const d = Math.round(days);
+  if (d < 1) return 'today';
+  if (d === 1) return '1 day';
+  if (d < 14) return `${d} days`;
+  if (d < 60) return `about ${Math.round(d / 7)} weeks`;
+  return `about ${Math.round(d / 30.4)} months`;
+}
+
+// A SKU's most recent movement: the date and that day's total gain.
+export function lastMove(drops, sku) {
+  let date = null;
+  for (const d of drops) if (d.sku === sku && (!date || d.date > date)) date = d.date;
+  if (!date) return null;
+  const gain = drops
+    .filter((d) => d.sku === sku && d.date === date)
+    .reduce((s, d) => s + (d.to - d.from), 0);
+  return { date, gain };
+}
+
+// The "what just happened" feed: newest drop dates, each day's slices
+// biggest first.
+export function dropLog(drops, maxDates = 4) {
+  return allDates(drops).slice(-maxDates).reverse().map((date) => ({
+    date,
+    items: drops
+      .filter((d) => d.date === date)
+      .map((d) => ({ sku: d.sku, from: d.from, to: d.to, gain: d.to - d.from }))
+      .sort((a, b) => b.gain - a.gain),
+  }));
+}
+
+// Whole-line sweep activity: frontier movement per day summed across SKUs,
+// over the trailing ~windowDays active days vs lifetime. Frontier gain, not
+// slice widths — AYN republishes overlapping slices, which would double-count.
+export function packPace(drops, windowDays = 14) {
+  const dates = allDates(drops);
+  if (dates.length < 2) return null;
+  const last = dates[dates.length - 1];
+  const gainSince = (lo) => {
+    let sum = 0;
+    for (const sku of new Set(drops.map((d) => d.sku))) {
+      const mine = drops.filter((d) => d.sku === sku);
+      const top = Math.max(...mine.map((d) => d.to));
+      const before = mine.filter((d) => d.date <= lo).map((d) => d.to);
+      const base = before.length ? Math.max(...before) : Math.min(...mine.map((d) => d.from));
+      sum += Math.max(0, top - base);
+    }
+    return sum;
+  };
+  const overall = gainSince('') / Math.max(1, activeDays(dates, dates[0], last));
+  let lo = null;
+  for (let i = dates.length - 1; i >= 0; i--) {
+    if (activeDays(dates, dates[i], last) >= windowDays) { lo = dates[i]; break; }
+  }
+  if (lo === null) return { recent: overall, overall };
+  const recent = gainSince(lo) / Math.max(1, activeDays(dates, lo, last));
+  return { recent, overall };
+}
+
 // ---------- sku decomposition (mirrors AYN's order page: model × color) ----------
 
 export const COLORS = ['Black', 'White', 'Rainbow', 'Clear Purple'];

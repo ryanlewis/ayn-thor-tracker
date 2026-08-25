@@ -5,6 +5,7 @@
 
 import {
   frontiers, seriesFor, allDates, computeEta, chartScale, COLORS, splitSku,
+  humanizeDays, lastMove, dropLog, packPace, DAY,
 } from './lib.js';
 
 const STALE_HOURS = 60; // tolerates one missed twice-daily cron run
@@ -118,10 +119,16 @@ function renderEta(drops, sel) {
     $('#eta-headline').textContent = 'shipped (or imminent)';
     $('#eta-detail').textContent = `the ${name} frontier (${r.frontier}xx) has passed your block ${sel.block}xx. if nothing has arrived, check your order status with ayn.`;
   } else {
-    $('#eta-headline').innerHTML = `~${fmtDate(r.mid)} <span class="range">window: ${fmtDate(r.opt)} → ${fmtDate(r.cons)}</span>`;
+    const rel = humanizeDays((r.mid.getTime() - Date.now()) / DAY);
+    $('#eta-headline').innerHTML =
+      `~${fmtDate(r.mid)} <span class="rel">${rel === 'today' ? 'any day now' : `${esc(rel)} away`}</span>` +
+      `<span class="range">window: ${fmtDate(r.opt)} → ${fmtDate(r.cons)}</span>`;
+    const mv = lastMove(drops, sel.sku);
+    const since = (Date.now() - new Date(mv.date).getTime()) / DAY;
     $('#eta-detail').textContent =
       `${name} frontier: ${r.frontier}xx · you: ${sel.block}xx · ${r.remaining} blocks to go\n` +
-      `rate: ~${r.rActive.toFixed(1)} blocks/day active · ~${r.rOverall.toFixed(1)} overall`;
+      `rate: ~${r.rActive.toFixed(1)} blocks/day active · ~${r.rOverall.toFixed(1)} overall\n` +
+      `last ${name} drop: ${mv.date} (+${mv.gain}) · ${since < 1 ? 'today' : `${humanizeDays(since)} ago`}`;
     if (r.packMax >= sel.block) {
       caveat.textContent = `the pack leader (${r.packMax}xx) is already past your number — waiting on the ${name} sweep`;
       caveat.hidden = false;
@@ -131,6 +138,31 @@ function renderEta(drops, sel) {
     }
   }
   box.hidden = false;
+}
+
+function renderLog(drops, sel) {
+  const log = dropLog(drops, 4);
+  if (!log.length) {
+    $('#log-section').hidden = true;
+    return;
+  }
+  let rows = '';
+  for (const day of log) {
+    day.items.forEach((it, i) => {
+      const mine = sel && it.sku === sel.sku;
+      rows += `<tr class="${i === 0 ? 'log__day' : ''}${mine ? ' log__mine' : ''}">
+        <td class="log__date">${i === 0 ? day.date : ''}</td>
+        <td>${esc(shortSku(it.sku)).toLowerCase()}${mine ? ' *' : ''}</td>
+        <td class="log__range">${it.from}xx → ${it.to}xx</td>
+        <td class="log__gain">+${it.gain}</td></tr>`;
+    });
+  }
+  const pace = packPace(drops);
+  $('#pace-line').textContent = pace
+    ? `sweep pace, all models: ~${Math.round(pace.recent)} blocks/day lately · ~${Math.round(pace.overall)} long-run`
+    : '';
+  $('#log-wrap').innerHTML = `<table class="log" aria-label="latest drops">${rows}</table>`;
+  $('#log-section').hidden = false;
 }
 
 function renderMeta(data) {
@@ -250,6 +282,7 @@ function buildChips() {
 function renderAll() {
   renderChart(data.drops, sel);
   renderEta(data.drops, sel);
+  renderLog(data.drops, sel);
   if (sel) renderSpark(data.drops, sel.sku);
   else $('#spark-section').hidden = true;
 }
