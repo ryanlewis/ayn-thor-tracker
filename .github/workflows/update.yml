@@ -38,9 +38,10 @@ jobs:
       - name: Install
         if: steps.commit.outputs.changed == 'true'
         run: npm ci --ignore-scripts
-      # The token is step-scoped so fetch/commit/install never see it.
+      # The token is step-scoped so fetch/commit/install never see it. Gate on
+      # the paired account-id var: the secrets context isn't allowed in step `if`.
       - name: Deploy to Cloudflare
-        if: ${{ steps.commit.outputs.changed == 'true' && secrets.CLOUDFLARE_API_TOKEN != '' }}
+        if: steps.commit.outputs.changed == 'true' && vars.CLOUDFLARE_ACCOUNT_ID != ''
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
