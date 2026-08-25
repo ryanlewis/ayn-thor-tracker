@@ -34,15 +34,15 @@ npm run serve   # serve public/ on :8787
 
 ## Deploy setup (once)
 
-Repo secrets:
+Both workflows deploy through a `cloudflare` environment whose deployment branch policy is `main` only, so the token is never exposed to runs on other branches:
 
-| Secret | Purpose |
-| --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Workers deploy (edit permission) |
-| `CLOUDFLARE_ACCOUNT_ID` | Workers deploy |
-| `HUBBUB_ALERT_KEY` | hubbub bearer key; `POST /v1/notify` on fetch/parse failure (optional) |
+| Name | Kind | Purpose |
+| --- | --- | --- |
+| `CLOUDFLARE_API_TOKEN` | environment secret | Workers deploy (edit permission) |
+| `CLOUDFLARE_ACCOUNT_ID` | environment variable | Workers deploy (not sensitive) |
+| `HUBBUB_ALERT_KEY` | environment secret | hubbub bearer key; `POST /v1/notify` on fetch/parse failure (optional) |
 
-`wrangler.jsonc` binds the custom domain `thor.rlew.io` (zone must be on the same Cloudflare account). Without the CF secrets, the workflows still fetch and commit data — deploy steps are skipped.
+`wrangler.jsonc` binds the custom domain `thor.rlew.io` (zone must be on the same Cloudflare account). Without the CF token, the workflows still fetch and commit data — deploy steps are skipped.
 
 ## Politeness
 
