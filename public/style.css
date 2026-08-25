@@ -1,8 +1,10 @@
 /* ayn-thor-tracker — shout.sh design system: lo-fi terminal, monochrome,
-   square corners, JetBrains Mono. Inverted here: black on white, light-only. */
+   square corners, JetBrains Mono. Black on white by default; dark mode
+   follows the browser unless overridden via [data-theme] (toggle, top right). */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 :root {
+  color-scheme: light;
   --bg: #ffffff;
   --bg-1: #f4f4f4;
   --fg: #0a0a0a;
@@ -25,6 +27,34 @@
   --maxw: 640px;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0a0a0a;
+    --bg-1: #1a1a1a;
+    --fg: #ededed;
+    --fg-1: #c4c4c4;
+    --fg-2: #8f8f8f;
+    --fg-3: #5c5c5c;
+    --fg-4: #2e2e2e;
+    --rule: #2e2e2e;
+    --rule-strong: #5c5c5c;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0a0a0a;
+  --bg-1: #1a1a1a;
+  --fg: #ededed;
+  --fg-1: #c4c4c4;
+  --fg-2: #8f8f8f;
+  --fg-3: #5c5c5c;
+  --fg-4: #2e2e2e;
+  --rule: #2e2e2e;
+  --rule-strong: #5c5c5c;
+}
+
 * { box-sizing: border-box; }
 
 html, body {
@@ -40,7 +70,26 @@ html, body {
 
 ::selection { background: var(--fg); color: var(--bg); }
 
-.container { max-width: var(--maxw); margin: 0 auto; padding: var(--s-5) var(--s-4) var(--s-6); }
+.container { position: relative; max-width: var(--maxw); margin: 0 auto; padding: var(--s-5) var(--s-4) var(--s-6); }
+
+.theme-toggle {
+  all: unset;
+  position: absolute;
+  top: var(--s-5);
+  right: var(--s-4);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: lowercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--rule-strong);
+  color: var(--fg-1);
+  padding: 4px 10px;
+}
+.theme-toggle::before { content: "% "; color: var(--fg-3); }
+.theme-toggle:hover { border-color: var(--fg); color: var(--fg); }
+.theme-toggle:hover::before { color: var(--fg); }
+.theme-toggle:focus-visible { outline: 1px dashed var(--fg); outline-offset: 2px; }
 
 h1 {
   font-weight: 700;

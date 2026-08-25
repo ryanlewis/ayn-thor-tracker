@@ -6,10 +6,38 @@
 <title>ayn thor tracker</title>
 <meta name="description" content="Unofficial AYN Thor shipment tracker — per-model shipping progress and an ETA estimate for your order number.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='white'/><rect x='2' y='7' width='9' height='3' fill='%230a0a0a'/><rect x='13' y='3' width='1' height='11' fill='%230a0a0a'/></svg>">
+<script>
+// theme: stored choice wins, otherwise follow the browser. runs before CSS paints.
+(function () {
+  var stored = null;
+  try { stored = localStorage.getItem('theme'); } catch (e) {}
+  if (stored === 'dark' || stored === 'light') document.documentElement.dataset.theme = stored;
+
+  function isDark() {
+    var t = document.documentElement.dataset.theme;
+    if (t) return t === 'dark';
+    return matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var btn = document.getElementById('theme-toggle');
+    function render() { btn.textContent = isDark() ? 'light' : 'dark'; }
+    btn.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      render();
+    });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+    render();
+  });
+})();
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
+
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="toggle dark mode"></button>
 
 <header>
   <h1>ayn thor tracker</h1>
