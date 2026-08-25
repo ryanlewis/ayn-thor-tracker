@@ -20,8 +20,8 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
       - name: Fetch and merge
@@ -39,7 +39,9 @@ jobs:
           fi
       - name: Deploy to Cloudflare
         if: steps.commit.outputs.changed == 'true' && env.CLOUDFLARE_API_TOKEN != ''
-        run: npx wrangler@4 deploy
+        run: |
+          npm ci --ignore-scripts
+          npx wrangler deploy
       - name: Alert hubbub on failure
         if: failure()
         env:
