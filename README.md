@@ -40,7 +40,7 @@ Repo secrets:
 | --- | --- |
 | `CLOUDFLARE_API_TOKEN` | Workers deploy (edit permission) |
 | `CLOUDFLARE_ACCOUNT_ID` | Workers deploy |
-| `HUBBUB_ALERT_URL` | ntfy-compatible endpoint POSTed on fetch/parse failure (optional) |
+| `HUBBUB_ALERT_KEY` | hubbub bearer key; `POST /v1/notify` on fetch/parse failure (optional) |
 
 `wrangler.jsonc` binds the custom domain `thor.rlew.io` (zone must be on the same Cloudflare account). Without the CF secrets, the workflows still fetch and commit data — deploy steps are skipped.
 

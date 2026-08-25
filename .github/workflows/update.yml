@@ -45,12 +45,11 @@ jobs:
       - name: Alert hubbub on failure
         if: failure()
         env:
-          ALERT_URL: ${{ secrets.HUBBUB_ALERT_URL }}
+          HUBBUB_KEY: ${{ secrets.HUBBUB_ALERT_KEY }}
         run: |
-          [ -n "$ALERT_URL" ] || exit 0
+          [ -n "$HUBBUB_KEY" ] || exit 0
           curl -fsS -m 10 \
-            -H "Title: ayn-thor-tracker update failed" \
-            -H "Priority: high" \
-            -H "Tags: warning,package" \
-            -d "Scheduled fetch/parse of AYN's shipment dashboard failed (zero drops or fetch error). https://github.com/ryanlewis/ayn-thor-tracker/actions" \
-            "$ALERT_URL" || true
+            -H "Authorization: Bearer $HUBBUB_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"title":"ayn-thor-tracker update failed","message":"Scheduled fetch/parse of AYN'"'"'s shipment dashboard failed (zero drops or fetch error). https://github.com/ryanlewis/ayn-thor-tracker/actions","priority":"high"}' \
+            https://notify.rlew.io/v1/notify || true
