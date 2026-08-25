@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ayn thor tracker</title>
+<meta name="description" content="Unofficial AYN Thor shipment tracker — per-model shipping progress and an ETA estimate for your order number.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='white'/><rect x='2' y='7' width='9' height='3' fill='%230a0a0a'/><rect x='13' y='3' width='1' height='11' fill='%230a0a0a'/></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>ayn thor tracker</h1>
+  <p class="comment">unofficial shipment-frontier tracker — data from <a href="https://www.ayntec.com/pages/shipment-dashboard">ayn's shipment dashboard</a>. estimates only.</p>
+</header>
+
+<div id="stale" class="banner" hidden></div>
+
+<form id="order-form" class="box" autocomplete="off">
+  <label class="lbl" for="order-input">order number</label>
+  <div class="field field--order">
+    <span class="field__prompt">&gt;</span>
+    <span class="field__prefix">OD</span>
+    <input id="order-input" inputmode="numeric" placeholder="2761" aria-describedby="order-note">
+    <span class="field__suffix">xxx</span>
+  </div>
+  <div class="lbl">model</div>
+  <div id="model-chips" class="chips" role="radiogroup" aria-label="model"></div>
+  <div class="lbl">color</div>
+  <div id="color-chips" class="chips" role="radiogroup" aria-label="color"></div>
+  <div class="form-row">
+    <button type="submit" class="btn-primary">track</button>
+    <span id="order-note" class="meta">only the first 4 digits are kept — your full order number never leaves this page</span>
+  </div>
+  <p id="form-error" class="error" hidden></p>
+</form>
+
+<section id="eta" class="box eta" hidden aria-live="polite">
+  <div class="lbl">eta</div>
+  <div id="eta-headline" class="eta__headline"></div>
+  <div id="eta-detail" class="eta__detail"></div>
+  <div id="eta-caveat" class="comment" hidden></div>
+</section>
+
+<section id="chart-section">
+  <h2>the pack</h2>
+  <p class="meta">shipping frontier per model, on the shared order-number line. one block = 100 orders.</p>
+  <div id="chart-wrap"></div>
+</section>
+
+<section class="explain">
+  <h2>how to read this</h2>
+  <ul>
+    <li>every thor order lives on <b>one shared order-number line</b>, whatever the model. ayn ships each model in sweeps along that line, and publishes ranges like <code>2502xx</code> with the last digits masked — so everything here works in blocks of ~100 orders.</li>
+    <li>each bar shows a model's <b>frontier</b>: the highest order number it has shipped past so far. the dashed line is <b>your order</b> — when your model's bar reaches it, your unit ships.</li>
+    <li>bars differ because models get swept at different times, not in fairness order. a model sitting behind yours isn't "late" — its sweep just hasn't come round yet. by the same token, the leader passing your number means nothing until <em>your</em> model's sweep arrives.</li>
+    <li>the <b>eta</b> extrapolates your model's shipping pace: the early end of the window assumes the recent working pace keeps up, the late end uses the long-run average including pauses. ayn has paused the whole line before (three weeks in july) — expect the window, not the headline date.</li>
+    <li>the step chart shows your model's frontier over time; flat stretches are pauses.</li>
+    <li>all of it is derived from ayn's public dashboard by extrapolation — an educated guess, not a promise, and not ayn's word.</li>
+  </ul>
+</section>
+
+<section id="spark-section" hidden>
+  <h2 id="spark-title"></h2>
+  <div id="spark-wrap"></div>
+</section>
+
+<hr>
+<footer>
+  <p class="meta" id="meta-line"></p>
+  <p class="meta">not affiliated with AYN · <a href="https://github.com/ryanlewis/ayn-thor-tracker">source</a> · shipping ranges are published by AYN with the last two digits masked; everything here is derived from those</p>
+</footer>
+
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

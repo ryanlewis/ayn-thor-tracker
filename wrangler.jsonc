@@ -1,0 +1,7 @@
+// Cloudflare Workers static-assets deploy. No worker script — assets only.
+{
+  "name": "ayn-thor-tracker",
+  "compatibility_date": "2026-08-17",
+  "assets": { "directory": "./public" },
+  "routes": [{ "pattern": "thor.rlew.io", "custom_domain": true }]
+}

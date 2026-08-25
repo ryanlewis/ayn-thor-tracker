@@ -1,0 +1,178 @@
+/* ayn-thor-tracker — shout.sh design system: lo-fi terminal, monochrome,
+   square corners, JetBrains Mono. Inverted here: black on white, light-only. */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg: #ffffff;
+  --bg-1: #f4f4f4;
+  --fg: #0a0a0a;
+  --fg-1: #333333;
+  --fg-2: #6e6e6e;
+  --fg-3: #a3a3a3;
+  --fg-4: #d9d9d9;
+  --rule: #d9d9d9;
+  --rule-strong: #a3a3a3;
+  --font-mono: "JetBrains Mono", "Menlo", "DejaVu Sans Mono", "Consolas", ui-monospace, monospace;
+  --fs-xs: 11px;
+  --fs-sm: 13px;
+  --fs-base: 15px;
+  --fs-2xl: 26px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --maxw: 640px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  font-variant-ligatures: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--fg); color: var(--bg); }
+
+.container { max-width: var(--maxw); margin: 0 auto; padding: var(--s-5) var(--s-4) var(--s-6); }
+
+h1 {
+  font-weight: 700;
+  font-size: var(--fs-2xl);
+  line-height: 1.1;
+  text-transform: lowercase;
+  margin: 0 0 var(--s-3);
+}
+h2 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.25;
+  text-transform: lowercase;
+  margin: var(--s-6) 0 var(--s-2);
+}
+p { margin: 0 0 var(--s-3); color: var(--fg-1); }
+a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { background: var(--fg); color: var(--bg); text-decoration: none; }
+hr { border: 0; border-top: 1px dashed var(--rule); margin: var(--s-6) 0 var(--s-4); }
+
+.meta { font-size: var(--fs-xs); color: var(--fg-2); }
+.comment { color: var(--fg-2); font-size: var(--fs-sm); }
+.comment::before { content: "# "; color: var(--fg-3); }
+.error { color: var(--fg); background: var(--bg-1); border-left: 2px solid var(--fg); padding: var(--s-2) var(--s-3); font-size: var(--fs-sm); }
+.error::before { content: "! "; color: var(--fg-2); }
+
+.banner {
+  border: 1px dashed var(--rule-strong);
+  color: var(--fg-1);
+  font-size: var(--fs-sm);
+  padding: var(--s-2) var(--s-3);
+  margin: 0 0 var(--s-4);
+}
+
+.box { border: 1px solid var(--rule); padding: var(--s-4); margin: var(--s-4) 0; }
+
+.lbl {
+  display: block;
+  color: var(--fg-2);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 6px;
+}
+.lbl + .field { margin-bottom: var(--s-4); }
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  border: 1px solid var(--rule-strong);
+  background: var(--bg);
+  padding: 10px 12px;
+}
+.field:focus-within { border-color: var(--fg); }
+.field__prompt { color: var(--fg-3); user-select: none; }
+.field input {
+  all: unset;
+  flex: 1;
+  width: 100%;
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-base);
+  caret-color: var(--fg);
+}
+.field input::placeholder { color: var(--fg-3); }
+
+/* order field: fixed 4-digit box between the OD prefix and masked xxx suffix */
+.field--order input { flex: 0 0 5ch; letter-spacing: 0.05em; }
+.field--order::after { content: ""; flex: 1; }
+.field__prefix, .field__suffix { color: var(--fg-3); user-select: none; letter-spacing: 0.05em; }
+
+/* chip pickers — mirrors AYN's order page (model buttons + colour swatches) */
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: 0 0 var(--s-4); }
+.chip {
+  all: unset;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  text-transform: lowercase;
+  border: 1px solid var(--rule-strong);
+  color: var(--fg-1);
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.chip:hover { border-color: var(--fg); color: var(--fg); }
+.chip[aria-checked="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.chip:disabled { border-color: var(--fg-4); color: var(--fg-3); cursor: not-allowed; }
+.chip:disabled .swatch { opacity: 0.3; }
+.chip:focus-visible { outline: 1px dashed var(--fg); outline-offset: 2px; }
+
+.swatch { width: 13px; height: 13px; border: 1px solid var(--rule-strong); flex: none; }
+.chip[aria-checked="true"] .swatch { border-color: var(--bg); }
+.swatch--black { background: #000; }
+.swatch--white { background: #f5f5f5; }
+.swatch--rainbow { background: linear-gradient(135deg, #e05252 0 25%, #e0c152 25% 50%, #52c878 50% 75%, #527ae0 75% 100%); }
+.swatch--clear-purple { background: rgba(150, 110, 220, 0.55); }
+
+.form-row { display: flex; align-items: center; gap: var(--s-4); }
+.btn-primary {
+  all: unset;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--fs-base);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  background: var(--fg);
+  color: var(--bg);
+  padding: 6px 18px;
+}
+.btn-primary:hover, .btn-primary:focus-visible {
+  background: transparent;
+  color: var(--fg);
+  outline: 1px solid var(--fg);
+  outline-offset: -1px;
+}
+#form-error { margin: var(--s-3) 0 0; }
+
+.explain ul { margin: var(--s-2) 0 0; padding-left: var(--s-4); }
+.explain li { font-size: var(--fs-sm); color: var(--fg-1); margin-bottom: var(--s-2); }
+.explain li::marker { color: var(--fg-3); }
+
+.eta__headline { font-size: 22px; font-weight: 700; margin: 2px 0 var(--s-2); }
+.eta__headline .range { font-size: var(--fs-sm); font-weight: 400; color: var(--fg-2); display: block; }
+.eta__detail { font-size: var(--fs-sm); color: var(--fg-1); white-space: pre-line; }
+.eta .comment { margin-top: var(--s-2); }
+
+#chart-wrap svg, #spark-wrap svg { display: block; width: 100%; height: auto; }
+#chart-wrap { margin-top: var(--s-3); }
+
+svg text { font-family: var(--font-mono); }
+
+footer p { margin-bottom: var(--s-2); }
