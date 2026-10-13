@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-13T01:23:47.878Z",
+"updated": "2026-10-13T15:06:13.714Z",
 "drops": [
   {"date":"2026-06-15","sku":"Black Base","from":2133,"to":2195},
   {"date":"2026-06-15","sku":"Black Max","from":2125,"to":2202},
@@ -196,6 +196,8 @@
   {"date":"2026-10-09","sku":"White Max 512","from":2730,"to":2941},
   {"date":"2026-10-10","sku":"Rainbow Max","from":2887,"to":2944},
   {"date":"2026-10-10","sku":"White Max","from":2652,"to":2891},
-  {"date":"2026-10-10","sku":"White Pro","from":2730,"to":2856}
+  {"date":"2026-10-10","sku":"White Pro","from":2730,"to":2856},
+  {"date":"2026-10-12","sku":"Clear Purple Pro","from":2790,"to":2832},
+  {"date":"2026-10-12","sku":"Rainbow Pro","from":2889,"to":2939}
 ]
 }
