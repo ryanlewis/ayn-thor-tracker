@@ -1,5 +1,5 @@
 {
-"updated": "2026-11-06T00:21:56.060Z",
+"updated": "2026-11-06T15:08:10.801Z",
 "drops": [
   {"date":"2026-06-15","sku":"Black Base","from":2133,"to":2195},
   {"date":"2026-06-15","sku":"Black Max","from":2125,"to":2202},
@@ -221,6 +221,29 @@
   {"date":"2026-10-23","sku":"Black Pro","from":3091,"to":3167},
   {"date":"2026-10-23","sku":"Rainbow Pro","from":3013,"to":3087},
   {"date":"2026-10-26","sku":"Clear Purple Pro","from":2884,"to":3041},
-  {"date":"2026-10-26","sku":"Rainbow Pro","from":3087,"to":3173}
+  {"date":"2026-10-26","sku":"Rainbow Pro","from":3087,"to":3173},
+  {"date":"2026-10-27","sku":"Black Base","from":3169,"to":3278},
+  {"date":"2026-10-27","sku":"Black Lite","from":2977,"to":3007},
+  {"date":"2026-10-27","sku":"Black Max","from":3049,"to":3078},
+  {"date":"2026-10-27","sku":"Black Max 512","from":2941,"to":2999},
+  {"date":"2026-10-27","sku":"Rainbow Max","from":3022,"to":3063},
+  {"date":"2026-10-28","sku":"Rainbow Max 512","from":2989,"to":3067},
+  {"date":"2026-10-29","sku":"Black Max 512","from":2999,"to":3066},
+  {"date":"2026-10-30","sku":"Clear Purple Max 512","from":2940,"to":3023},
+  {"date":"2026-10-30","sku":"Rainbow Max 512","from":3067,"to":3084},
+  {"date":"2026-10-30","sku":"White Max 512","from":2941,"to":2994},
+  {"date":"2026-10-31","sku":"Black Lite","from":3007,"to":3297},
+  {"date":"2026-10-31","sku":"Black Max 512","from":2999,"to":3081},
+  {"date":"2026-10-31","sku":"Black Pro","from":3167,"to":3297},
+  {"date":"2026-10-31","sku":"Rainbow Max 512","from":3084,"to":3115},
+  {"date":"2026-11-02","sku":"Black Base","from":3278,"to":3307},
+  {"date":"2026-11-02","sku":"Black Pro","from":3297,"to":3306},
+  {"date":"2026-11-02","sku":"Clear Purple Pro","from":3041,"to":3147},
+  {"date":"2026-11-02","sku":"White Pro","from":2856,"to":3163},
+  {"date":"2026-11-03","sku":"Clear Purple Pro","from":3147,"to":3198},
+  {"date":"2026-11-04","sku":"Clear Purple Pro","from":3147,"to":3198},
+  {"date":"2026-11-05","sku":"Black Base","from":3307,"to":3316},
+  {"date":"2026-11-05","sku":"Rainbow Max 512","from":3115,"to":3128},
+  {"date":"2026-11-05","sku":"White Max 512","from":2994,"to":3016}
 ]
 }
