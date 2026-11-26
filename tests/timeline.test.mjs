@@ -11,8 +11,11 @@ import { readFileSync } from 'node:fs';
 import { htmlToLines, parseDrops, mergeDrops, serialiseData } from '../scripts/parse.mjs';
 import { frontiers, computeEta, chartScale, splitSku, DAY } from '../public/lib.js';
 
+// Frozen snapshot of real data up to 2026-08-15, the day before the sim
+// starts. Not public/data.json: the scheduled fetch keeps adding real drops,
+// which would overlap the simulated ones and move the frontiers under it.
 const seed = JSON.parse(
-  readFileSync(new URL('../public/data.json', import.meta.url), 'utf8'),
+  readFileSync(new URL('./fixtures/data-2026-08-15.json', import.meta.url), 'utf8'),
 ).drops;
 
 const iso = (t) => new Date(t).toISOString().slice(0, 10);

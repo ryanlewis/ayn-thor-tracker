@@ -8,6 +8,7 @@
     "serve": "python3 -m http.server 8787 -d public"
   },
   "devDependencies": {
-    "wrangler": "4.33.1"
+    "cf": "1.0.0-rc.1",
+    "wrangler": "4.164.0"
   }
 }

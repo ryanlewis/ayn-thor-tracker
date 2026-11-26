@@ -43,7 +43,7 @@ Both workflows deploy through a `cloudflare` environment whose deployment branch
 | `CLOUDFLARE_ACCOUNT_ID` | environment variable | Workers deploy (not sensitive) |
 | `HUBBUB_ALERT_KEY` | environment secret | hubbub bearer key; `POST /v1/notify` on fetch/parse failure (optional) |
 
-`wrangler.jsonc` binds the custom domain `thor.rlew.io` (zone must be on the same Cloudflare account). Without the CF token, the workflows still fetch and commit data — deploy steps are skipped.
+`cloudflare.config.ts` binds the custom domain `thor.rlew.io` (zone must be on the same Cloudflare account); `wrangler.config.ts` points the Worker at `public/`. CI deploys with `npx cf deploy`. Without the CF token, the workflows still fetch and commit data — deploy steps are skipped.
 
 ## Politeness
 
